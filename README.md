@@ -1,5 +1,5 @@
 # GODMOONL-DiscordBot
->현재 개발중입니다.
+>현재 개발중입니다. 오류가 존재할 수 있습니다.
 ### 개발자
 - GODMOONL<himoon345@gmail.com> (GODMOONL#7059)
 
