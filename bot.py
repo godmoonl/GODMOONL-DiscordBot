@@ -2,12 +2,17 @@ import asyncio
 import discord
 import time
 import random
+import sqlite3
+
+conn = sqlite3.connect('db')
+cur = conn.cursor()
 
 app = discord.Client()
-user = discord.User()
-
+embed=discord.Embed
 token = "토큰을 입력"
+
 uptime = time.time()
+
 @app.event
 async def on_ready():
     print("다음으로 로그인 완료 :")
@@ -15,10 +20,12 @@ async def on_ready():
     print(app.user.id)
     print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
     await app.change_presence(game=discord.Game(name="!야 라고 해보세요!"))
+
 @app.event
 async def on_message(message):
     if message.author.bot:
         return None
+
     if message.content == '!정보':
         end = time.time()-uptime
         ut = int(end)
@@ -28,8 +35,9 @@ async def on_message(message):
         hour = str(hour%24)
         ut=str(ut%60)
         min=str(min%60)
-        embed = discord.Embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시 "+min+"분 "+ut+"초 ", color=0x00ff00)
-        await app.send_message(message.channel,embed=embed)
+        e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시 "+min+"분 "+ut+"초 ", color=0x00ff00)
+        await app.send_message(message.channel,embed=e)
+
     if message.content == '!야':
         rnum = random.randrange(0,6)
         ans = ['🤷‍왜','답변','외수영장','놀자','나두','🤷‍왜']
@@ -53,31 +61,44 @@ async def on_message(message):
         rnum = random.randrange(0,1)
         tmp = message.content.split('!골라 ')[1]
         ans = tmp.split('/')[rnum]
-        embed = discord.Embed(title="갓봇의 선택은?",description=ans)
-        await app.send_message(message.channel,embed=embed)
+        e = embed(title="갓봇의 선택은?",description=ans)
+        await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!확률 '):
         ans = str(random.randrange(0,100))
         q = message.content.split('!확률 ')[1]
-        embed = discord.Embed(title=q+"은?",description=ans+"%입니다")
-        await app.send_message(message.channel,embed=embed)
-
-    if message.content == '!프사':
-        embed = discord.Embed(title="사용자의 프로필 사진")
-        user = message.author
-        embed.set_image(url=user.avatar_url)
-        await app.send_message(message.channel,embed=embed)
-
+        e = embed(title=q+"은?",description=ans+"%입니다")
+        await app.send_message(message.channel,embed=e)
+        
     if message.content.startswith('!프사 '):
-        embed = discord.Embed(title="맨션한 사용자의 프로필 사진")
+        e = embed(title="맨션한 사용자의 프로필 사진")
         if not message.mentions:
-            embed = discord.Embed(title="에러!",description="에러 발생")
-            await app.send_message(message.channel,embed=embed)
+            e = embed(title="에러!",description="에러 발생")
+            await app.send_message(message.channel,embed=e)
         else:
             user = message.mentions[0]
-            embed.set_image(url=user.avatar_url)
-            await app.send_message(message.channel,embed=embed)
+            e.set_image(url=user.avatar_url)
+            await app.send_message(message.channel,embed=e)
     
+    if message.content == '!돈줘':
+        uid = message.author.id
+        cur.execute('SELECT * FROM users WHERE id=?',[uid])
+        l = cur.fetchone()
+        if l is None:
+            m = "5000"
+            print(uid)
+            cur.execute('INSERT INTO users VALUES(?,?,?);',(m,uid,time.time()))
+            conn.commit()
+            cur.execute('SELECT * FROM users WHERE id=?',[uid])
+            l = cur.fetchone()
+        elif l[2]+60 <= time.time():
+            m = str(int(l[0])+5000)
+            cur.execute('UPDATE users SET money = ?, id = ?,time=?',(m,uid,time.time()))
+            conn.commit()
+        if m:
+            e = embed(title="오류")
+        e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')
+        await app.send_message(message.channel,embed=e)
         
     
 
