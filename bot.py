@@ -9,6 +9,7 @@ cur = conn.cursor()
 
 app = discord.Client()
 embed=discord.Embed
+
 token = "토큰을 입력"
 
 uptime = time.time()
@@ -70,6 +71,11 @@ async def on_message(message):
         e = embed(title=q+"은?",description=ans+"%입니다")
         await app.send_message(message.channel,embed=e)
         
+    if message.content == '!프사':
+        e = embed(title="당신의 프로필 사진")
+        e.set_image(url=message.author.avatar_url)
+        await app.send_message(message.channel,embed=e)
+
     if message.content.startswith('!프사 '):
         e = embed(title="맨션한 사용자의 프로필 사진")
         if not message.mentions:
@@ -84,6 +90,7 @@ async def on_message(message):
         uid = message.author.id
         cur.execute('SELECT * FROM users WHERE id=?',[uid])
         l = cur.fetchone()
+        m = ""
         if l is None:
             m = "5000"
             print(uid)
@@ -93,13 +100,13 @@ async def on_message(message):
             l = cur.fetchone()
         elif l[2]+60 <= time.time():
             m = str(int(l[0])+5000)
-            cur.execute('UPDATE users SET money = ?, id = ?,time=?',(m,uid,time.time()))
+            cur.execute('UPDATE users SET money = ?, time=? WHERE id = ?',(m,time.time(),uid))
             conn.commit()
-        if m:
-            e = embed(title="오류")
-        e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')
+        if m=="":
+            e = embed(title="오류",description='돈은 1분에 한번씩 받을 수 있습니다 \n'+str(int((l[2]+60)-time.time()))+'초 남았습니다')
+        else:
+            e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')
         await app.send_message(message.channel,embed=e)
-        
     
 
 app.run(token)
