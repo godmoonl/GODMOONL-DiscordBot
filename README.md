@@ -4,7 +4,7 @@
 - GODMOONL<himoon345@gmail.com> (GODMOONL#7059)
 
 ### 기능
-- 돈 받기
+- 돈 받기(sqlite3 db사용)
 - 프로필 사진을 보여주기
 
 ### 라이센스
