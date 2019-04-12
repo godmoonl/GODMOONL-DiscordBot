@@ -40,28 +40,24 @@ async def on_message(message):
         await app.send_message(message.channel,embed=e)
 
     if message.content == '!야':
-        rnum = random.randrange(0,6)
         ans = ['🤷‍왜','답변','외수영장','놀자','나두','🤷‍왜']
-        await app.send_message(message.channel,ans[rnum])
+        await app.send_message(message.channel,random.choice(ans))
 
     if message.content == '!이런':
-        rnum = random.randrange(0,3)
         ans = ['🤦‍저런','ㅇㅅㅇ','🤦‍저런']
-        await app.send_message(message.channel,ans[rnum])
+        await app.send_message(message.channel,random.choice(ans))
 
     if message.content == '!저런':
-        rnum = random.randrange(0,3)
         ans = ['🤦‍이런','ㅇㅅㅇ','🤦‍이런']
-        await app.send_message(message.channel,ans[rnum])
+        await app.send_message(message.channel,random.choice(ans))
 
     if message.content.startswith('!따라해 '):
         ans = message.content.split('!따라해')[1]
         await app.send_message(message.channel,ans)
     
-    if message.content.startswith('!골라 '):
-        rnum = random.randrange(0,1)
+    if message.content.startswith('!골라 '): 
         tmp = message.content.split('!골라 ')[1]
-        ans = tmp.split('/')[rnum]
+        ans = random.choice(tmp.split('/'))
         e = embed(title="갓봇의 선택은?",description=ans)
         await app.send_message(message.channel,embed=e)
 
@@ -70,12 +66,12 @@ async def on_message(message):
         q = message.content.split('!확률 ')[1]
         e = embed(title=q+"은?",description=ans+"%입니다")
         await app.send_message(message.channel,embed=e)
-        
-    if message.content == '!프사':
+
+     if message.content == '!프사':
         e = embed(title="당신의 프로필 사진")
         e.set_image(url=message.author.avatar_url)
-        await app.send_message(message.channel,embed=e)
-
+        await app.send_message(message.channel,embed=e)    
+        
     if message.content.startswith('!프사 '):
         e = embed(title="맨션한 사용자의 프로필 사진")
         if not message.mentions:
@@ -107,6 +103,5 @@ async def on_message(message):
         else:
             e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')
         await app.send_message(message.channel,embed=e)
-    
 
 app.run(token)
