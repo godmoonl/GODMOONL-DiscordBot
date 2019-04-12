@@ -10,4 +10,4 @@
 - discord 모듈 설치가 필요합니다
 
 돈받기 기능을 위한 db 만들기가 필요합니다
-<https://sqlitebrowser.org/dl/> 이 링크에서 DB Browser for SQLite를 다운받아 
+
