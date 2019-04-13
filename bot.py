@@ -67,11 +67,11 @@ async def on_message(message):
         e = embed(title=q+"은?",description=ans+"%입니다")
         await app.send_message(message.channel,embed=e)
 
-     if message.content == '!프사':
+    if message.content == '!프사':
         e = embed(title="당신의 프로필 사진")
         e.set_image(url=message.author.avatar_url)
         await app.send_message(message.channel,embed=e)    
-        
+
     if message.content.startswith('!프사 '):
         e = embed(title="맨션한 사용자의 프로필 사진")
         if not message.mentions:
@@ -81,7 +81,13 @@ async def on_message(message):
             user = message.mentions[0]
             e.set_image(url=user.avatar_url)
             await app.send_message(message.channel,embed=e)
-    
+    if message.content == '!돈순위':
+        cur.execute('SELECT * FROM users ORDER BY money DESC')
+        l = cur.fetchall()
+        e = embed(title = "돈순위!",description="돈순위 상위 5명을 불러옵니다")
+        for i in range(0,5):
+            e.add_field(name =str(i+1)+'위',value='<@%s>\n%d원'%(l[i][1],l[i][0]))
+        await app.send_message(message.channel,embed=e)
     if message.content == '!돈줘':
         uid = message.author.id
         cur.execute('SELECT * FROM users WHERE id=?',[uid])
