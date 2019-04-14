@@ -20,12 +20,19 @@ async def on_ready():
     print(app.user.name)
     print(app.user.id)
     print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
-    await app.change_presence(game=discord.Game(name="!야 라고 해보세요!"))
+    await app.change_presence(game=discord.Game(name="!도움 이라고 해보세요!"))
 
 @app.event
 async def on_message(message):
     if message.author.bot:
         return None
+    if message.content == '!도움':
+        r = open('update.txt',mode='rt',encoding = 'utf-8')
+        rows = r.readlines()
+        e = embed(title = '갓봇 도움!')
+        for i in rows:
+            e.add_field(name = i.split('/')[0],value=i.split('/')[1])
+        await app.send_message(message.channel,embed=e)
 
     if message.content == '!정보':
         end = time.time()-uptime
@@ -81,6 +88,7 @@ async def on_message(message):
             user = message.mentions[0]
             e.set_image(url=user.avatar_url)
             await app.send_message(message.channel,embed=e)
+            
     if message.content == '!돈순위':
         cur.execute('SELECT * FROM users ORDER BY money DESC')
         l = cur.fetchall()
@@ -88,6 +96,7 @@ async def on_message(message):
         for i in range(0,5):
             e.add_field(name =str(i+1)+'위',value='<@%s>\n%d원'%(l[i][1],l[i][0]))
         await app.send_message(message.channel,embed=e)
+        
     if message.content == '!돈줘':
         uid = message.author.id
         cur.execute('SELECT * FROM users WHERE id=?',[uid])
@@ -100,12 +109,12 @@ async def on_message(message):
             conn.commit()
             cur.execute('SELECT * FROM users WHERE id=?',[uid])
             l = cur.fetchone()
-        elif l[2]+60 <= time.time():
+        elif l[2]+300 <= time.time():
             m = str(int(l[0])+5000)
             cur.execute('UPDATE users SET money = ?, time=? WHERE id = ?',(m,time.time(),uid))
             conn.commit()
         if m=="":
-            e = embed(title="오류",description='돈은 1분에 한번씩 받을 수 있습니다 \n'+str(int((l[2]+60)-time.time()))+'초 남았습니다')
+            e = embed(title="오류",description='돈은 5분에 한번씩 받을 수 있습니다 \n'+str(int((l[2]+300)-time.time()))+'초 남았습니다')
         else:
             e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')
         await app.send_message(message.channel,embed=e)
