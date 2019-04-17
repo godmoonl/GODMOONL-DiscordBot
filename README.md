@@ -1,7 +1,11 @@
 # GODMOONL-DiscordBot
 >현재 개발중입니다. 오류가 존재할 수 있습니다.
+
+이 소스를 사용한 갓봇 초대하기
+
+
 ### 개발자
-- GODMOONL<himoon345@gmail.com> (GODMOONL#7059)
+- [GODMOONL](himoon345@gmail.com) (GODMOONL#7059)
 
 ### 기능
 - 돈 받기/돈 순위(sqlite3 db사용)
@@ -10,7 +14,10 @@
 ### 라이센스
 - GPL
 
-### 필요한것
-- discord 모듈 설치가 필요합니다
-- 돈받기 기능을 위해 db를 사용합니다. 기초 db파일이 레포지토리에 들어있습니다
-
+### 설치하는 방법
+- 파이썬 discord 모듈 설치가 필요합니다.
+- discord 모듈을 설치하지 않으셨다면 cmd에 아래 명령을 입력하세요 :
+```
+pip install discord
+```
+- 돈받기 기능을 위해 splite3 db를 사용합니다. 기본 db파일이 레포지토리에 들어있습니다
