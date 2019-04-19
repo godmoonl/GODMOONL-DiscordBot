@@ -43,7 +43,7 @@ async def on_message(message):
         hour = str(hour%24)
         ut=str(ut%60)
         min=str(min%60)
-        e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시 "+min+"분 "+ut+"초 ", color=0x00ff00)
+        e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시간 "+min+"분 "+ut+"초 ", color=0x00ff00)
         await app.send_message(message.channel,embed=e)
 
     if message.content == '!야':
