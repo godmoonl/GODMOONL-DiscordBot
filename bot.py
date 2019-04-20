@@ -3,6 +3,7 @@ import discord
 import time
 import random
 import sqlite3
+import setting
 
 conn = sqlite3.connect('db')
 cur = conn.cursor()
@@ -10,9 +11,12 @@ cur = conn.cursor()
 app = discord.Client()
 embed=discord.Embed
 
-token = "토큰을 입력"
+token = setting.token
 
 uptime = time.time()
+
+a = ['!야','!이런','!저런']
+b = [['🤷‍왜','답변','외수영장','놀자','나두','🤷‍왜'],['🤦‍저런','ㅇㅅㅇ','🤦‍저런'],['🤦‍이런','ㅇㅅㅇ','🤦‍이런']]
 
 @app.event
 async def on_ready():
@@ -46,17 +50,10 @@ async def on_message(message):
         e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시간 "+min+"분 "+ut+"초 ", color=0x00ff00)
         await app.send_message(message.channel,embed=e)
 
-    if message.content == '!야':
-        ans = ['🤷‍왜','답변','외수영장','놀자','나두','🤷‍왜']
-        await app.send_message(message.channel,random.choice(ans))
-
-    if message.content == '!이런':
-        ans = ['🤦‍저런','ㅇㅅㅇ','🤦‍저런']
-        await app.send_message(message.channel,random.choice(ans))
-
-    if message.content == '!저런':
-        ans = ['🤦‍이런','ㅇㅅㅇ','🤦‍이런']
-        await app.send_message(message.channel,random.choice(ans))
+   
+    for i in range(0,2):
+        if message.content == a[i]:
+            await app.send_message(message.channel,random.choice(b[i]))
 
     if message.content.startswith('!따라해 '):
         ans = message.content.split('!따라해')[1]
