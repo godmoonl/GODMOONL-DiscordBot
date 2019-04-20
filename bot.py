@@ -49,8 +49,12 @@ async def on_message(message):
         min=str(min%60)
         e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시간 "+min+"분 "+ut+"초 ", color=0x00ff00)
         await app.send_message(message.channel,embed=e)
+<<<<<<< HEAD
 
    
+=======
+        
+>>>>>>> eeeb553f146d30455f7c0d5ae43a8ed8fa3876fa
     for i in range(0,2):
         if message.content == a[i]:
             await app.send_message(message.channel,random.choice(b[i]))
