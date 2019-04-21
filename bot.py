@@ -84,5 +84,35 @@ async def on_message(message):
             user = message.mentions[0]
             e.set_image(url=user.avatar_url)
             await app.send_message(message.channel,embed=e)
+            
+    if message.content == '!돈순위':	
+        cur.execute('SELECT * FROM users ORDER BY money DESC')	
+        l = cur.fetchall()	
+        e = embed(title = "돈순위!",description="돈순위 상위 5명을 불러옵니다")	
+        for i in range(0,5):	
+            e.add_field(name =str(i+1)+'위',value='<@%s>\n%d원'%(l[i][1],l[i][0]))	
+        await app.send_message(message.channel,embed=e)	
+
+    if message.content == '!돈줘':	
+        uid = message.author.id	
+        cur.execute('SELECT * FROM users WHERE id=?',[uid])	
+        l = cur.fetchone()	
+        m = ""	
+        if l is None:	
+            m = "5000"	
+            print(uid)	
+            cur.execute('INSERT INTO users VALUES(?,?,?);',(m,uid,time.time()))	
+            conn.commit()	
+            cur.execute('SELECT * FROM users WHERE id=?',[uid])	
+            l = cur.fetchone()	
+        elif l[2]+300 <= time.time():	
+            m = str(int(l[0])+5000)	
+            cur.execute('UPDATE users SET money = ?, time=? WHERE id = ?',(m,time.time(),uid))	
+            conn.commit()	
+        if m=="":	
+            e = embed(title="오류",description='돈은 5분에 한번씩 받을 수 있습니다 \n'+str(int((l[2]+300)-time.time()))+'초 남았습니다')	
+        else:	
+            e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')	
+        await app.send_message(message.channel,embed=e)
     
 app.run(token)
