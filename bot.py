@@ -5,6 +5,7 @@ import random
 import sqlite3
 import setting
 import test
+
 conn = sqlite3.connect('db')
 cur = conn.cursor()
 
@@ -118,8 +119,12 @@ async def on_message(message):
     if message.content.startswith('!위키 '):
         m = message.content[4:]
         ans = test.wiki(m)
-        e = embed(title = m+" 검색결과")
-        e.add_field(name = '내용',value = ans)
-        await app.send_message(message.channel,embed=e)
+        if not ans:
+            e = embed(title = '오류',description = '위키피디아에 없는 문서입니다')
+            await app.send_message(message.channel,embed=e)
+        else:
+            e = embed(title = m+" 검색결과")
+            e.add_field(name = '내용',value = ans)
+            await app.send_message(message.channel,embed=e)
     
 app.run(token)
