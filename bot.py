@@ -4,7 +4,7 @@ import time
 import random
 import sqlite3
 import setting
-
+import test
 conn = sqlite3.connect('db')
 cur = conn.cursor()
 
@@ -113,6 +113,13 @@ async def on_message(message):
             e = embed(title="오류",description='돈은 5분에 한번씩 받을 수 있습니다 \n'+str(int((l[2]+300)-time.time()))+'초 남았습니다')	
         else:	
             e = embed(title = "돈을 받았습니다.",description = '당신의 돈은 '+m+'원입니다')	
+        await app.send_message(message.channel,embed=e)
+
+    if message.content.startswith('!위키 '):
+        m = message.content[4:]
+        ans = test.wiki(m)
+        e = embed(title = m+" 검색결과")
+        e.add_field(name = '내용',value = ans)
         await app.send_message(message.channel,embed=e)
     
 app.run(token)
