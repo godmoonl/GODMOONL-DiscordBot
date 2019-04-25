@@ -125,6 +125,33 @@ async def on_message(message):
         else:
             e = embed(title = m+" 검색결과")
             e.add_field(name = '내용',value = ans)
+            e.set_footer(text='ko.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
+
+    if message.content.startswith('!날씨 '):
+        m = message.content[4:]
+        ans = test.weather(m)
+        if not ans:
+            e = embed(title = '오류',description = '존재하지 않는 읍/면/동 입니다')
+            await app.send_message(message.channel,embed=e)
+        else:
+            e = embed(title = m+" 날씨")
+            e.add_field(name = '온도',value = ans.split('\n')[0])
+            e.add_field(name = '공기',value = ans.split('\n')[1])
+            e.set_footer(text='naver.com 네이버')
+            await app.send_message(message.channel,embed=e)
+
+    if message.content.startswith('!영어위키 '):
+        m = message.content[6:]
+        ans = test.enwiki(m)
+        if not ans:
+            e = embed(title = '오류',description = '영어 위키피디아에 없는 문서입니다')
+            await app.send_message(message.channel,embed=e)
+        else:
+            e = embed(title = m+" 검색결과")
+            
+            e.set_footer(text='en.wikipedia.org 위키피디아')
+            await app.send_message(message.channel,embed=e)
+        
     
 app.run(token)
