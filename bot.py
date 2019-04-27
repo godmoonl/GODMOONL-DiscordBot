@@ -152,6 +152,13 @@ async def on_message(message):
             
             e.set_footer(text='en.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
+            
+    if message.content == '!멜론':
+        e = embed(title='멜론차트 TOP 10',description = '멜론차트 상위 10위를 불러옵니다',color = 0x04D939)
+        ans = test.Melon()
+        for i in range(10):
+            e.add_field(name = i+1,value = ans.tag[i].text+' - '+ans.a[i].text)
+        await app.send_message(message.channel,embed=e)
         
     
 app.run(token)
