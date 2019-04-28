@@ -127,6 +127,17 @@ async def on_message(message):
             e.add_field(name = '내용',value = ans)
             e.set_footer(text='ko.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
+    if message.content.startswith('!나무위키 '):
+        m = message.content[6:]
+        ans = test.namu(m)
+        if not ans:
+            e = embed(title = '오류',description = '나무위키에 없는 문서입니다')
+            await app.send_message(message.channel,embed=e)
+        else:
+            e = embed(title = m+" 검색결과",color=0x00A495)
+            e.add_field(name = '내용',value = ans)
+            e.set_footer(text='namu.wiki 나무위키')
+            await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!날씨 '):
         m = message.content[4:]
@@ -149,10 +160,9 @@ async def on_message(message):
             await app.send_message(message.channel,embed=e)
         else:
             e = embed(title = m+" 검색결과")
-            
+            e.add_field(name = '내용',value = ans)
             e.set_footer(text='en.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
-            
     if message.content == '!멜론':
         e = embed(title='멜론차트 TOP 10',description = '멜론차트 상위 10위를 불러옵니다',color = 0x04D939)
         ans = test.Melon()

@@ -14,7 +14,16 @@ def wiki(message):
     soup = BeautifulSoup(html,'html.parser')
     ans = soup.find('div', class_='mw-parser-output').find('p').text
     return ans+'\n'+url
-        
+def namu(message):
+    location = urllib.parse.quote(message)
+    url = 'https://namu.wiki/w/'+location
+    hdr = {'User-Agent': 'Mozilla/5.0'}
+    req = urllib.request.Request(url,headers=hdr)
+    response = urlopen(req)
+    soup = BeautifulSoup(response,'html.parser')
+    ans = soup.find('div',class_='wiki-heading-content').text
+    return ans+'\n'+url
+
 def enwiki(message):
     location = urllib.parse.quote(message)
     url = 'https://en.wikipedia.org/wiki/'+ location
@@ -24,7 +33,6 @@ def enwiki(message):
         return 0
     soup = BeautifulSoup(html,'html.parser')
     ans = soup.find('div', class_='mw-parser-output').find('p').text
-    print(ans)
     return ans+'\n'+url  
 
 def weather(message):
@@ -37,7 +45,6 @@ def weather(message):
     soup = BeautifulSoup(html,'html.parser')
     ans = soup.find('div', class_='info_data').find('p',class_='info_temperature').text+'\n'+soup.find('div',class_='detail_box').text
     return ans 
-
 class Melon:
     def __init__(self):
         url = 'http://www.melon.com/chart/index.htm'
@@ -55,3 +62,5 @@ class Melon:
                 print(i+1,tag[i].text,a[i].text)
         self.tag=tag
         self.a=a
+if __name__ == "__main__":
+    Melon()
