@@ -17,6 +17,7 @@
 
 ### 라이센스
 - GPL 3.0
+- **이 소스를 사용할시 반드시 `출처 : https://github.com/godmoonl/GODMOONL-DiscordBot` 를 명시하여 주세요**
 
 ### 설치하는 방법
 - 이 레포지토리를 다운받습니다.
