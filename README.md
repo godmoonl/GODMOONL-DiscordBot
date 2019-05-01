@@ -27,5 +27,4 @@
 ```
 pip install discord
 ```
-- 돈받기 기능을 위해 splite3 db를 사용합니다.db파일은 레포지토리에 들어있습니다.
 - `bot.py` 파일을 실행합니다.
