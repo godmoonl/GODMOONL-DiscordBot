@@ -37,6 +37,7 @@ async def on_message(message):
         e = embed(title = '갓봇 도움!',description = '갓봇 명령어를 불러옵니다',color=0x00C853)
         for i in rows:
             e.add_field(name = i.split('/')[0],value=i.split('/')[1])
+        e.set_footer(text='개발자 : GODMOONL#7059')
         await app.send_message(message.channel,embed=e)
 
     if message.content == '!정보':
