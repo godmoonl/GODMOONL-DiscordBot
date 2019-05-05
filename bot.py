@@ -142,14 +142,16 @@ async def on_message(message):
 
     if message.content.startswith('!날씨 '):
         m = message.content[4:]
-        ans = test.weather(m)
-        if not ans:
+        ans = test.Weather(m)
+        if not ans:            
             e = embed(title = '오류',description = '존재하지 않는 읍/면/동 입니다')
             await app.send_message(message.channel,embed=e)
         else:
-            e = embed(title = m+" 날씨")
-            e.add_field(name = '온도',value = ans.split('\n')[0])
-            e.add_field(name = '공기',value = ans.split('\n')[1])
+            e = embed(title = m+" 날씨",color=ans.color)
+            e.add_field(name = '온도',value = ans.temp)
+            e.add_field(name = '미세먼지',value = ans.aq[2])
+            e.add_field(name = '초미세먼지',value = ans.aq[4])
+            e.add_field(name = '오존농도',value = ans.aq[6])
             e.set_footer(text='naver.com 네이버')
             await app.send_message(message.channel,embed=e)
 
