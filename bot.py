@@ -16,8 +16,6 @@ token = setting.token
 
 uptime = time.time()
 
-servers = 0
-
 a = setting.a
 b = setting.b
 
