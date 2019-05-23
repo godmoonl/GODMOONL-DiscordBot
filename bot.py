@@ -143,7 +143,7 @@ async def on_message(message):
 
     if message.content.startswith('!날씨 '):
         m = message.content[4:]
-        ans = test.weather(m)
+        ans = test.Weather(m)
         if not ans:
             e = embed(title = '오류',description = '존재하지 않는 읍/면/동 입니다')
             await app.send_message(message.channel,embed=e)
