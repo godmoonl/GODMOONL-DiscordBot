@@ -26,7 +26,12 @@ async def on_ready():
     print(app.user.id)
     print("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ")
     servers = len(app.servers)
-    await app.change_presence(game=discord.Game(name="!도움 / "+str(servers)+'개의 서버'))
+    sum = 0
+    for i in app.servers:
+        sum += len(i.members)
+    await app.change_presence(game=discord.Game(name='`!도움` 이라고 해보세요!'))
+    time.sleep(1)
+    await app.change_presence(game=discord.Game(name=str(servers)+'개의 서버 | '+str(sum)+'명의 유저'))
 
 @app.event
 async def on_message(message):
