@@ -139,6 +139,7 @@ async def on_message(message):
             e.add_field(name = '내용',value = ans)
             e.set_footer(text='ko.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
+
     if message.content.startswith('!나무위키 '):
         m = message.content[6:]
         ans = test.namu(m)
@@ -154,13 +155,15 @@ async def on_message(message):
     if message.content.startswith('!날씨 '):
         m = message.content[4:]
         ans = test.Weather(m)
-        if not ans:
+        if not ans:            
             e = embed(title = '오류',description = '존재하지 않는 읍/면/동 입니다')
             await app.send_message(message.channel,embed=e)
         else:
-            e = embed(title = m+" 날씨")
-            e.add_field(name = '온도',value = ans.split('\n')[0])
-            e.add_field(name = '공기',value = ans.split('\n')[1])
+            e = embed(title = m+" 날씨",color=ans.color)
+            e.add_field(name = '온도',value = ans.temp)
+            e.add_field(name = '미세먼지',value = ans.aq[2])
+            e.add_field(name = '초미세먼지',value = ans.aq[4])
+            e.add_field(name = '오존농도',value = ans.aq[6])
             e.set_footer(text='naver.com 네이버')
             await app.send_message(message.channel,embed=e)
 
@@ -175,6 +178,7 @@ async def on_message(message):
             e.add_field(name = '내용',value = ans)
             e.set_footer(text='en.wikipedia.org 위키피디아')
             await app.send_message(message.channel,embed=e)
+
     if message.content == '!멜론':
         e = embed(title='멜론차트 TOP 10',description = '멜론차트 상위 10위를 불러옵니다',color = 0x04D939)
         ans = test.Melon()
@@ -182,5 +186,4 @@ async def on_message(message):
             e.add_field(name = i+1,value = ans.tag[i].text+' - '+ans.a[i].text)
         await app.send_message(message.channel,embed=e)
         
-    
 app.run(token)
