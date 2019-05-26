@@ -29,10 +29,11 @@ async def on_ready():
     sum = 0
     for i in app.servers:
         sum += len(i.members)
-    while(1):
+    while True:
         await app.change_presence(game=discord.Game(name='`!도움` 이라고 해보세요!'))
-        time.sleep(1)
+        await asyncio.sleep(30)
         await app.change_presence(game=discord.Game(name=str(servers)+'개의 서버 | '+str(sum)+'명의 유저'))
+        await asyncio.sleep(30)
 
 @app.event
 async def on_message(message):
