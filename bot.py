@@ -29,12 +29,13 @@ async def on_ready():
     sum = 0
     for i in app.servers:
         sum += len(i.members)
+
     while True:
         await app.change_presence(game=discord.Game(name='`!도움` 이라고 해보세요!'))
         await asyncio.sleep(30)
         await app.change_presence(game=discord.Game(name=str(servers)+'개의 서버 | '+str(sum)+'명의 유저'))
         await asyncio.sleep(30)
-
+    
 @app.event
 async def on_message(message):
     if message.author.bot:
@@ -61,8 +62,8 @@ async def on_message(message):
         await app.send_message(message.channel,embed=e)
     if message.content == '!서버리스트':
         e = embed(title = '갓봇 서버리스트!',description = '갓봇이 있는 서버를 불러옵니다', color=0x00C853)
-        for i,s in enumerate(app.servers):
-            e.add_field(name=i+1,value=s)
+        for s in app.servers:
+            e.add_field(name=s,value=str(len(s.members))+'명')
         await app.send_message(message.channel,embed=e)       
     for i in range(0,2):
         if message.content == a[i]:
