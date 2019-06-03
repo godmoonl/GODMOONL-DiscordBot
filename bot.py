@@ -47,6 +47,14 @@ async def on_message(message):
             e.add_field(name = i.split('/')[0],value=i.split('/')[1])
         e.set_footer(text='개발자 : GODMOONL#7059')
         await app.send_message(message.channel,embed=e)
+    if message.content.startswith('!공지 '):
+        m = message.content.split(' ')[1]
+        for servers in app.servers:
+            for channel in servers.channels:
+                if channel.name =='공지사항':
+                    e = embed(title = '공지',description=m)
+                    e.set_footer(text = '문의 : GODMOONL#7059')
+                    await app.send_message(channel,embed=e)
 
     if message.content == '!정보':
         end = time.time()-uptime
