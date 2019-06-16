@@ -49,7 +49,7 @@ async def on_message(message):
         await app.send_message(message.channel,embed=e)
     if message.content.startswith('!공지 '):
         m = message.content[4:]
-        if message.author.id == 528205968614490122:
+        if message.author.id == '528205968614490122':
             for servers in app.servers:
                 for channel in servers.channels:
                     if channel.name =='공지사항':
