@@ -48,13 +48,14 @@ async def on_message(message):
         e.set_footer(text='개발자 : GODMOONL#7059')
         await app.send_message(message.channel,embed=e)
     if message.content.startswith('!공지 '):
-        m = message.content.split(' ')[1]
-        for servers in app.servers:
-            for channel in servers.channels:
-                if channel.name =='공지사항':
-                    e = embed(title = '공지',description=m)
-                    e.set_footer(text = '문의 : GODMOONL#7059')
-                    await app.send_message(channel,embed=e)
+        m = message.content[4:]
+        if message.author.id == '528205968614490122':
+            for servers in app.servers:
+                for channel in servers.channels:
+                    if channel.name =='공지사항':
+                        e = embed(title = '공지',description=m)
+                        e.set_footer(text = '문의 : GODMOONL#7059')
+                        await app.send_message(channel,embed=e)
 
     if message.content == '!정보':
         end = time.time()-uptime
@@ -67,10 +68,11 @@ async def on_message(message):
         min=str(min%60)
         e = embed(title="갓봇 정보!", description="개발자 : GODMOONL#7059\n업타임 : "+day+"일 "+hour+"시간 "+min+"분 "+ut+"초 ", color=0x00C853)
         await app.send_message(message.channel,embed=e)
+
     if message.content == '!서버리스트':
         e = embed(title = '갓봇 서버리스트!',description = '갓봇이 있는 서버를 불러옵니다', color=0x00C853)
         for i,s in enumerate(app.servers):
-            e.add_field(name=i+1,value=s)
+            e.add_field(name=i+1,value=s.name)
         await app.send_message(message.channel,embed=e)       
     for i in range(0,2):
         if message.content == a[i]:
