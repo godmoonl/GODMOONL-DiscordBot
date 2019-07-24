@@ -197,7 +197,7 @@ async def on_message(message):
         e = embed(title='멜론차트 TOP 10',description = '멜론차트 상위 10위를 불러옵니다',color = 0x04D939)
         ans = test.Melon()
         for i in range(10):
-            e.add_field(name = i+1,value = ans.tag[i].text+' - '+ans.a[i].text)
-        await app.edit_message(msg,new_content=True,embed=e)
+            e.add_field(name = i+1,value = ans.tag[i].text)
+        await app.edit_message(msg,new_content='',embed=e)
         
 app.run(token)
