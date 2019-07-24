@@ -140,8 +140,10 @@ async def on_message(message):
         await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!위키 '):
+        msg = await app.send_message(message.channel,'로드 중입니다..')
         m = message.content[4:]
         ans = test.wiki(m)
+        await app.delete_message(msg)
         if not ans:
             e = embed(title = '오류',description = '위키피디아에 없는 문서입니다')
             await app.send_message(message.channel,embed=e)
@@ -152,8 +154,10 @@ async def on_message(message):
             await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!나무위키 '):
+        msg = await app.send_message(message.channel,'로드 중입니다..')
         m = message.content[6:]
         ans = test.namu(m)
+        await app.delete_message(msg)
         if not ans:
             e = embed(title = '오류',description = '나무위키에 없는 문서입니다')
             await app.send_message(message.channel,embed=e)
@@ -164,19 +168,17 @@ async def on_message(message):
             await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!날씨 '):
+        msg = await app.send_message(message.channel,'로드 중입니다..')
         m = message.content[4:]
         ans = test.Weather(m)
-        if not ans:            
-            e = embed(title = '오류',description = '존재하지 않는 읍/면/동 입니다')
-            await app.send_message(message.channel,embed=e)
-        else:
-            e = embed(title = m+" 날씨",color=ans.color)
-            e.add_field(name = '온도',value = ans.temp)
-            e.add_field(name = '미세먼지',value = ans.aq[2])
-            e.add_field(name = '초미세먼지',value = ans.aq[4])
-            e.add_field(name = '오존농도',value = ans.aq[6])
-            e.set_footer(text='naver.com 네이버')
-            await app.send_message(message.channel,embed=e)
+        e = embed(title = m+" 날씨",color=ans.color)
+        e.add_field(name = '온도',value = ans.temp)
+        e.add_field(name = '미세먼지',value = ans.aq[2])
+        e.add_field(name = '초미세먼지',value = ans.aq[4])
+        e.add_field(name = '오존농도',value = ans.aq[6])
+        e.set_footer(text='naver.com 네이버')
+        await app.delete_message(msg)
+        await app.send_message(message.channel,embed=e)
 
     if message.content.startswith('!영어위키 '):
         m = message.content[6:]
@@ -191,10 +193,11 @@ async def on_message(message):
             await app.send_message(message.channel,embed=e)
 
     if message.content == '!멜론':
+        msg = await app.send_message(message.channel,'로드 중입니다..')
         e = embed(title='멜론차트 TOP 10',description = '멜론차트 상위 10위를 불러옵니다',color = 0x04D939)
         ans = test.Melon()
         for i in range(10):
             e.add_field(name = i+1,value = ans.tag[i].text+' - '+ans.a[i].text)
-        await app.send_message(message.channel,embed=e)
+        await app.edit_message(msg,new_content=True,embed=e)
         
 app.run(token)
