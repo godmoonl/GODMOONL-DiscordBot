@@ -198,6 +198,7 @@ async def on_message(message):
         ans = test.Melon()
         for i in range(10):
             e.add_field(name = i+1,value = ans.tag[i].text)
-        await app.edit_message(msg,new_content='',embed=e)
+        await app.delete_message(msg)
+        await app.send_message(message.channel,embed=e)
         
 app.run(token)
