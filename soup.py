@@ -19,7 +19,10 @@ def namu(message):
     url = 'https://namu.wiki/w/'+location
     hdr = {'User-Agent': 'Mozilla/5.0'}
     req = urllib.request.Request(url,headers=hdr)
-    response = urlopen(req)
+    try:
+        response = urlopen(req)
+    except:
+        return 0
     soup = BeautifulSoup(response,'html.parser')
     ans = soup.find('div',class_='wiki-heading-content').text[:500]
     return ans+'...\n'+url
@@ -40,20 +43,23 @@ class Weather:
         url = 'https://search.naver.com/search.naver?ie=utf8&query='+ location
         html = urlopen(url)
         soup = BeautifulSoup(html,'html.parser')
-        self.temp = soup.find('span', class_='todaytemp').text
-        aq = soup.find('dl',class_='indicator').text.split(' ')
-        self.aq = aq
-        aqt = aq[2].split('㎍/㎥')[1]
-        if aqt == '좋음':
-            c = 0x32a1ff
-        elif aqt == '보통':
-            c = 0x00a83d
-        elif aqt == '나쁨':
-            c = 0xfd9b5a
-        else:
-            c = 0xff5959
-        self.color = c
-        
+        try:
+            self.temp = soup.find('span', class_='todaytemp').text
+            self.cast = soup.find('p',class_='cast_txt').text
+            aq = soup.find('dl',class_='indicator').text.split(' ')
+            self.aq = aq
+            aqt = aq[2].split('㎍/㎥')[1]
+            if aqt == '좋음':
+                c = 0x32a1ff
+            elif aqt == '보통':
+                c = 0x00a83d
+            elif aqt == '나쁨':
+                c = 0xfd9b5a
+            else:
+                c = 0xff5959
+            self.color = c
+        except:
+            self.temp=999
 class Melon:
     def __init__(self):
         url = 'http://www.melon.com/chart/index.htm'
@@ -71,5 +77,3 @@ class Melon:
                 print(i+1,tag[i].text,a[i].text)
         self.tag=tag
         self.a=a
-if __name__ == "__main__":
-    Melon()
